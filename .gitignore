@@ -1,0 +1,9 @@
+.vscode/
+.venv/
+build/
+dist/
+images/
+output/
+requirements.txt
+Skripsweet_Shortcut.spec
+
