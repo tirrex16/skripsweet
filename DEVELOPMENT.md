@@ -145,18 +145,129 @@ Test cases yang perlu diperhatikan:
    - Tema kustom
    - Keyboard shortcuts kustom
 
-## 🐛 Debug Mode
+## 🐛 Panduan Debug dan Development
 
-Untuk mengaktifkan debug mode:
-1. Set environment variable:
+### Persiapan Awal
+1. **Install Python**:
+   - Download Python 3.7 atau lebih baru dari [python.org](https://www.python.org/downloads/)
+   - Saat instalasi, PASTIKAN centang "Add Python to PATH"
+   - Verifikasi instalasi dengan membuka Command Prompt dan ketik:
+     ```bash
+     python --version
+     ```
+
+2. **Install Git** (opsional, untuk development):
+   - Download dari [git-scm.com](https://git-scm.com/download/win)
+   - Install dengan opsi default
+   - Verifikasi dengan:
+     ```bash
+     git --version
+     ```
+
+3. **Download Source Code**:
+   - Dari GitHub: 
+     ```bash
+     git clone https://github.com/tirrex16/skripsweet-shortcut.git
+     ```
+   - Atau download ZIP dari repository dan extract
+
+4. **Setup Project**:
    ```bash
-   set DEBUG=1
+   # Buka Command Prompt sebagai Administrator
+   cd "path\to\skripsweet-shortcut"
+   
+   # Buat virtual environment
+   python -m venv venv
+   
+   # Aktifkan virtual environment
+   .\venv\Scripts\activate
+   
+   # Install dependencies
+   pip install -r requirements.txt
    ```
-2. Jalankan aplikasi:
+
+### Running untuk Debug
+1. **Buka VS Code**:
    ```bash
-   python skripsweet_shortcut_gui.py
+   code .
    ```
-3. Cek output di console untuk log detail
+
+2. **Install VS Code Extensions**:
+   - Python extension
+   - Pylance
+   - Python Debugger
+
+3. **Setup Debug Configuration**:
+   - Tekan F5 atau klik menu Run > Start Debugging
+   - Pilih "Python File"
+   - VS Code akan membuat file `launch.json`
+   - Tambahkan konfigurasi berikut di `launch.json`:
+   ```json
+   {
+       "version": "0.2.0",
+       "configurations": [
+           {
+               "name": "Python: Skripsweet Debug",
+               "type": "python",
+               "request": "launch",
+               "program": "skripsweet_shortcut_gui.py",
+               "console": "integratedTerminal",
+               "justMyCode": true,
+               "env": {
+                   "DEBUG": "1"
+               }
+           }
+       ]
+   }
+   ```
+
+4. **Jalankan dalam Debug Mode**:
+   - Tambahkan breakpoints dengan mengklik di sebelah kiri nomor baris
+   - Tekan F5 untuk mulai debugging
+   - Gunakan Step Over (F10), Step Into (F11), Continue (F5)
+   - Watch variables di panel Debug
+   - Cek debug output di Debug Console
+
+### Common Issues dan Solusi
+
+1. **ModuleNotFoundError**:
+   - Pastikan virtual environment aktif
+   - Install ulang dependencies:
+     ```bash
+     pip install -r requirements.txt
+     ```
+
+2. **COM Error dengan Word**:
+   - Pastikan Microsoft Word terinstall
+   - Jalankan VS Code sebagai Administrator
+   - Restart Word jika tidak responsive
+
+3. **Icon tidak muncul**:
+   - Pastikan folder `images` ada
+   - Periksa path icon di kode
+   - Coba absolute path untuk testing
+
+4. **Debug Print**:
+   Tambahkan di kode untuk logging:
+   ```python
+   print("[Debug]", message)  # akan muncul di Debug Console
+   ```
+
+### Tips Development
+1. Selalu test fitur dengan:
+   - Word belum dibuka
+   - Word sudah dibuka dengan dokumen
+   - Word tidak responsive
+   
+2. Gunakan breakpoints di:
+   - Event handlers
+   - Error handling blocks
+   - Koneksi Word
+   
+3. Monitor memory dan CPU usage:
+   - Task Manager
+   - Process Explorer
+   - VS Code Performance tab
 
 ## 📝 Panduan Kontribusi
 
