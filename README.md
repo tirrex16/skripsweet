@@ -1,150 +1,197 @@
+# Skripsweet Shortcut - Development Guide 🛠️
 
+Dokumentasi pengembangan untuk Skripsweet Shortcut, aplikasi GUI yang membantu penulisan skripsi di Microsoft Word.
 
-/// ▄▄▄█████▓ ██▓ ██▀███   ██▀███  ▓█████ ▒██   ██▒
-/// ▓  ██▒ ▓▒▓██▒▓██ ▒ ██▒▓██ ▒ ██▒▓█   ▀ ▒▒ █ █ ▒░
-/// ▒ ▓██░ ▒░▒██▒▓██ ░▄█ ▒▓██ ░▄█ ▒▒███   ░░  █   ░
-/// ░ ▓██▓ ░ ░██░▒██▀▀█▄  ▒██▀▀█▄  ▒▓█  ▄  ░ █ █ ▒ 
-///   ▒██▒ ░ ░██░░██▓ ▒██▒░██▓ ▒██▒░▒████▒▒██▒ ▒██▒
-///   ▒ ░░   ░▓  ░ ▒▓ ░▒▓░░ ▒▓ ░▒▓░░░ ▒░ ░▒▒ ░ ░▓ ░
-///     ░     ▒ ░  ░▒ ░ ▒░  ░▒ ░ ▒░ ░ ░  ░░░   ░▒ ░
-///   ░       ▒ ░  ░░   ░   ░░   ░    ░    ░    ░  
-///           ░     ░        ░        ░  ░ ░    ░  
+## 🏗️ Struktur Kode
 
+Aplikasi ini terdiri dari dua kelas utama:
 
+### 1. `WordHelper` Class
+Menangani semua interaksi dengan Microsoft Word melalui COM automation.
 
-Aplikasi desktop dengan GUI yang memudahkan penulisan skripsi di Microsoft Word dengan template dan fitur otomatis.
+#### Metode Utama:
+- `get_word_app()`: Menghubungkan ke instance Word yang aktif atau membuat baru
+- `ensure_doc()`: Memastikan dokumen aktif tersedia
+- `apply_default_formatting()`: Mengatur format standar dokumen
+- `create_toc()`: Membuat daftar isi
+- `create_specific_bab()`: Membuat BAB dengan template
+- `create_list_tables()`: Membuat daftar tabel
+- `create_list_figures()`: Membuat daftar gambar
+- `set_page_setup()`: Mengatur format halaman A4 dan margin
 
-![Status](https://img.shields.io/badge/status-stable-green)
-![Platform](https://img.shields.io/badge/platform-windows-blue)
-![Python Version](https://img.shields.io/badge/python-3.7%2B-blue)
+### 2. `Application` Class
+Mengatur GUI dan event handling menggunakan Tkinter.
 
-# Skripsweet Shortcut 📚✨
+#### Komponen GUI:
+- Status bar koneksi Word
+- Tombol untuk fitur-fitur utama
+- Indikator status aplikasi
 
-Aplikasi desktop dengan GUI yang memudahkan penulisan skripsi di Microsoft Word dengan template dan fitur otomatis.
+## 🔧 Pengembangan
 
-## 📥 Cara Install dan Penggunaan
-
-1. Download dan extract semua file dalam folder ini
-2. Double click pada file `Skripsweet Shortcut.exe`
-3. Pastikan Microsoft Word sudah terbuka
-4. Tunggu sampai status "Terhubung" muncul di aplikasi
-5. Aplikasi siap digunakan!
-
-## 🌟 Fitur
-
-- Pembuatan otomatis untuk:
-  - Daftar Isi
-  - Daftar Tabel
-  - Daftar Gambar
-  - BAB I-V dengan template standar
-    note: buat Daftar Isi setelah BAB I-V selesai, baru generate Daftar Daftar karena automatis membaca BAB dan Subbabnya.
-
-- 📐 **Page Setup Otomatis**
-  - Format A4
-  - Margin atas & kiri: 3.5 cm
-  - Margin bawah & kanan: 2.5 cm
-
-- 🎨 **Format Standar Skripsi**
-  - Font: Times New Roman
-  - Ukuran: 12pt
-  - Spasi: 1.5
-  - Perataan teks yang sesuai standar
-  - Penomoran otomatis
-
-- ✨ **Fitur Tambahan**
-  - Interface yang user-friendly
-  - Status koneksi Word yang real-time
-  - Pembuatan subbab otomatis
-  - Template placeholder untuk konten
-
-## 💻 Persyaratan Sistem
-
+### Persyaratan Sistem
+- Python 3.7+
 - Windows 8/10/11
-- Microsoft Word 2010 atau lebih baru
-- [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170) (biasanya sudah terinstall di Windows)
+- Microsoft Word 2010+
+- Dependencies (lihat `requirements.txt`)
 
-## 📥 Cara Install
-
-### Metode 1: Langsung Pakai (Recommended)
-1. Download file exe dari [Releases](https://github.com/yourusername/skripsweet-shortcut/releases)
-2. Extract file zip yang didownload
-3. Double click pada file `Skripsweet Shortcut.exe`
-4. Aplikasi siap digunakan!
-
-### Metode 2: Dari Source Code
-1. Install Python 3.7 atau lebih baru
-2. Clone repository ini:
+### Setup Development Environment
+1. Clone repository:
    ```bash
-   git clone https://github.com/yourusername/skripsweet-shortcut.git
+   git clone https://github.com/tirrex16/skripsweet-shortcut.git
+   cd skripsweet-shortcut
    ```
+
+2. Buat virtual environment:
+   ```bash
+   python -m venv venv
+   .\venv\Scripts\activate
+   ```
+
 3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-4. Jalankan aplikasi:
+
+### Struktur Project
+```
+skripsweet-shortcut/
+├── skripsweet_shortcut_gui.py   # File utama aplikasi
+├── requirements.txt             # Dependencies
+├── images/                      # Assets
+│   └── skripsweet_shortcut.ico # Icon aplikasi
+└── README.md                   # Dokumentasi
+```
+
+## 🔍 Panduan Pengembangan
+
+### 1. Menambah Fitur Word
+Untuk menambah fitur manipulasi Word baru:
+1. Tambahkan metode baru di class `WordHelper`
+2. Ikuti pola yang ada: get Word instance → get document → manipulasi
+3. Gunakan try-except untuk error handling
+4. Tampilkan feedback ke user via messagebox
+
+Contoh:
+```python
+def new_feature(self):
+    try:
+        word = self.get_word_app()
+        doc = self.ensure_doc(word)
+        # Implementasi fitur
+        messagebox.showinfo("Sukses", "Fitur berhasil dijalankan!")
+    except Exception as e:
+        messagebox.showerror("Error", f"Gagal: {str(e)}")
+```
+
+### 2. Menambah Elemen GUI
+Untuk menambah elemen interface baru:
+1. Tambahkan di method `__init__` class `Application`
+2. Gunakan ttk widgets untuk konsistensi tampilan
+3. Kelompokkan elemen terkait dalam frame
+4. Tambahkan dokumentasi untuk setiap widget
+
+Contoh:
+```python
+# Add new feature button
+ttk.Button(
+    main_frame,
+    text="Fitur Baru",
+    command=self.word_helper.new_feature,
+    width=40
+).pack(pady=3)
+```
+
+### 3. Modifikasi Format
+Untuk mengubah format dokumen:
+1. Sesuaikan konstanta di `WordHelper.__init__`
+2. Ubah parameter di method `apply_default_formatting`
+3. Test dengan berbagai versi Word
+4. Dokumentasikan perubahan format
+
+### 4. Error Handling
+- Selalu gunakan try-except blocks
+- Berikan pesan error yang informatif
+- Log error untuk debugging
+- Handle kasus Word tidak responsif
+
+### 5. Testing
+Test cases yang perlu diperhatikan:
+- Word belum terbuka
+- Dokumen kosong/baru
+- Dokumen dengan konten existing
+- Koneksi Word terputus
+- Format dokumen tidak standar
+
+## 🎯 Area Pengembangan Potensial
+
+1. **Template Kustom**
+   - Sistem loading template dari file
+   - Editor template visual
+   - Multiple template support
+
+2. **Pengaturan Pengguna**
+   - Save/load preferensi user
+   - Kustomisasi margin dan format
+   - Profile untuk institusi berbeda
+
+3. **Integrasi Lanjutan**
+   - Backup otomatis
+   - Version control dokumen
+   - Export ke format lain
+
+4. **Peningkatan UI**
+   - Dark mode
+   - Tema kustom
+   - Keyboard shortcuts kustom
+
+## 🐛 Debug Mode
+
+Untuk mengaktifkan debug mode:
+1. Set environment variable:
+   ```bash
+   set DEBUG=1
+   ```
+2. Jalankan aplikasi:
    ```bash
    python skripsweet_shortcut_gui.py
    ```
+3. Cek output di console untuk log detail
 
-## 🚀 Cara Penggunaan
+## 📝 Panduan Kontribusi
 
-1. Buka Microsoft Word
-2. Jalankan aplikasi Skripsweet Shortcut
-3. Tunggu sampai status "Terhubung" muncul di aplikasi
-4. Klik tombol sesuai fitur yang diinginkan:
-   - "Atur Page Setup" untuk mengatur format halaman
-   - "Buat DAFTAR ISI" untuk membuat daftar isi otomatis
-   - "Buat DAFTAR TABEL" untuk membuat daftar tabel
-   - "Buat DAFTAR GAMBAR" untuk membuat daftar gambar
-   - "Buat BAB I - V" untuk membuat bab dengan template lengkap
+1. Fork repository
+2. Buat branch untuk fitur/fix:
+   ```bash
+   git checkout -b feature/nama-fitur
+   ```
+3. Commit changes dengan pesan deskriptif
+4. Push ke fork Anda
+5. Submit Pull Request
 
-## ⚠️ Troubleshooting
+### Coding Standards
+- Ikuti PEP 8
+- Dokumentasikan fungsi dan kelas
+- Gunakan type hints
+- Berikan komentar untuk logika kompleks
 
-1. **Aplikasi tidak bisa terhubung ke Word**
-   - Pastikan Microsoft Word sudah terinstall
-   - Tutup dan buka ulang Word jika not responding
-   - Restart aplikasi Skripsweet Shortcut
+## 📚 Resources
 
-2. **Tombol tidak bereaksi**
-   - Pastikan status "Terhubung" sudah muncul
-   - Pastikan Word tidak sedang busy/not responding
-   - Coba tutup dan buka ulang Word
+- [Python Win32COM Documentation](https://docs.microsoft.com/en-us/office/client-developer/word/word-home)
+- [Tkinter Documentation](https://docs.python.org/3/library/tkinter.html)
+- [Word VBA Reference](https://docs.microsoft.com/en-us/office/vba/api/overview/word)
 
-3. **Format tidak sesuai**
-   - Klik tombol "Atur Page Setup" untuk memperbaiki format
-   - Pastikan tidak ada style kustom yang konflik
-   - Gunakan fitur "Format Ulang" jika tersedia
+## 📧 Kontak Development
 
-## 🛠️ Teknologi yang Digunakan
-
-- Python 3.7+
-- Tkinter untuk GUI
-- Win32com untuk integrasi dengan Microsoft Word
-- Pillow untuk pemrosesan icon
-- PyInstaller untuk pembuatan executable
-
-## 📝 Lisensi
-
-MIT License - lihat file [LICENSE](LICENSE) untuk detail lengkap.
-
-## 🤝 Kontribusi
-
-Kontribusi selalu diterima dengan senang hati! Beberapa cara untuk berkontribusi:
-
-1. 🐛 Laporkan bug
-2. 💡 Usulkan fitur baru
-3. 📖 Perbaiki dokumentasi
-4. 🔀 Submit pull request
-
-## 📧 Kontak
-
-Untuk pertanyaan dan saran, silakan:
-- Buat issue di GitHub
+Untuk pertanyaan pengembangan:
+- GitHub Issues
+- Pull Requests
 - Email: [mohammedwinston@yahoo.com]
 
-## ✨ Credits
+## 📄 Lisensi
 
-Dibuat dengan ❤️ untuk memudahkan mahasiswa dalam menulis skripsi.
+MIT License - Lihat file [LICENSE](LICENSE)
 
 ---
-**Note**: Aplikasi ini dibuat untuk membantu format penulisan skripsi secara umum. Sesuaikan dengan pedoman penulisan dari institusi Anda.
+
+**Note**: Dokumentasi ini akan terus diupdate sesuai perkembangan project. Kontribusi untuk memperbaiki dokumentasi sangat diterima!
